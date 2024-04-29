@@ -1,0 +1,100 @@
+Criptografia na rede do navio
+A intelitrader foi contratada para traduzir uma mensagem capturada na rede de um navio e ela está criptografada. Não sabemos que tipo de criptografia eles usaram, a única coisa que sabemos até agora, é que, a cada 8 bits, os dois últimos estão invertidos e a cada 4 bits, os 4 bits foram trocados com os próximos 4.
+Mensagem criptografada:
+10010110 11110111 01010110 00000001 00010111 00100110 01010111 00000001 00010111 01110110 01010111 00110110 11110111 11010111 01010111 00000011
+Instruções:
+•	De preferência, coloque o código em um arquivo único, para que seja possível executar online e coloque o link do site que executa. Ex: playcode.io/javascript
+•	Existe mais de uma maneira de resolver este problema, mas aqui está alguns conceitos que podem te ajudar:
+o	Tabela ASCII
+o	Operadores lógicos
+o	Números binários e hexadecimais
+•	Você saberá se conseguiu descriptografar a mensagem se ela for legível e em inglês. Pois, qualquer bit errado, você terá uma mensagem cheia de símbolos.
+Resposta:
+using System;
+
+public class Program
+{
+    public static string DecryptMessage(string encryptedMessage)
+    {
+        string[] bytes = encryptedMessage.Split(' ');
+        string decryptedMessage = "";
+
+        foreach (string byteStr in bytes)
+        {
+            // Invertendo os dois últimos bits
+            string invertedByte = byteStr.Substring(0, byteStr.Length - 2) +
+                                  (1 - int.Parse(byteStr[byteStr.Length - 2].ToString())) +
+                                  (1 - int.Parse(byteStr[byteStr.Length - 1].ToString()));
+
+            // Trocando os primeiros 4 bits com os próximos 4 bits
+            string swappedByte = invertedByte.Substring(4) + invertedByte.Substring(0, 4);
+
+            // Convertendo o byte para o formato ASCII e adicionando ao resultado
+            decryptedMessage += Convert.ToChar(Convert.ToInt32(swappedByte, 2));
+        }
+
+        return decryptedMessage;
+    }
+
+    public static void Main(string[] args)
+    {
+        string encryptedMessage = "10010110 11110111 01010110 00000001 00010111 00100110 01010111 00000001 00010111 01110110 01010111 00110110 11110111 11010111 01010111 00000011";
+        string decryptedMessage = DecryptMessage(encryptedMessage);
+        Console.WriteLine(decryptedMessage);
+    }
+}
+MANSAGEM DESCRIPTOGRAFADA: you are awesome
+Menor distância de dois arrays
+João estava participando de uma competição de programação e lhe foi dado um problema em que ele tinha que encontrar a menor distância entre dois números de dois arrays.
+Um exemplo seria:
+•	Array 1 -> [-1, 5]
+•	Array 2 -> [26, 6]
+A menor distância seria a combinação do número 5 do array 1 com o número 6 do array 2, que seria 1 de distância.
+Instruções
+•	Use arrays com tamanho maiores ou iguais a 10 números.
+•	De preferência, coloque o código em um arquivo único, para que seja possível executar online e coloque o link do site que executa. Ex: playcode.io/javascript
+Resolução:
+using System;
+
+class Program
+{
+    static int MenorDistancia(int[] array1, int[] array2)
+    {
+        // Ordena os arrays
+        Array.Sort(array1);
+        Array.Sort(array2);
+
+        int menorDistancia = int.MaxValue;
+        int i = 0, j = 0;
+
+        // Percorre os arrays enquanto houver elementos em ambos
+        while (i < array1.Length && j < array2.Length)
+        {
+            int diferenca = Math.Abs(array1[i] - array2[j]);
+
+            // Atualiza a menor diferença se necessário
+            if (diferenca < menorDistancia)
+                menorDistancia = diferenca;
+
+            // Move o ponteiro do array com o menor elemento
+            if (array1[i] < array2[j])
+                i++;
+            else
+                j++;
+        }
+
+        return menorDistancia;
+    }
+
+    static void Main(string[] args)
+    {
+        // Arrays de exemplo com pelo menos 10 números
+        int[] array1 = { -1, 5, 10, 15, 20, 25, 30, 35, 40, 45 };
+        int[] array2 = { 26, 6, 11, 16, 21, 22, 31, 36, 41, 46 };
+
+        // Chamando a função para encontrar a menor distância
+        int distanciaMinima = MenorDistancia(array1, array2);
+        Console.WriteLine("Menor distância entre os dois arrays: " + distanciaMinima);
+    }
+}
+Resposta: a menor distancia é 1.
